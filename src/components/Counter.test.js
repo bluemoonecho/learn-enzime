@@ -1,5 +1,5 @@
 import React from 'react'
-import Enzyme, { shallow } from 'enzyme'
+import Enzyme, { ReactWrapper, shallow } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import Counter from './Counter'
 import { render } from '@testing-library/react'
@@ -10,6 +10,7 @@ Enzyme.configure({adapter: new Adapter() });
 let wrapper;
 beforeEach(()=>{
   wrapper = shallow(<Counter/>)
+  console.log(wrapper.debug())
 });
 
 describe('Counter testing', () => {
@@ -44,6 +45,10 @@ describe('Counter testing', () => {
         wrapper.find("#decrement-btn").simulate('click')
         expect(wrapper.find("#counter-value").text()).toBe('0')
     })
- 
+
+    test('do not decrement below zero', () => {
+        wrapper.find('#decrement-btn').simulate('click');
+        expect(wrapper.find('#counter-value').text()).toBe("0");
+    })
 })
 
